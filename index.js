@@ -16,6 +16,7 @@ app.use(cors({
 app.use(express.json())
 
 Connector()
+app.use("/images", express.static("uploads"))
 app.use(UsersRoute)
 app.use(PostsRoute)
 app.use(CommentRoute)

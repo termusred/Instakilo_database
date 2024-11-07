@@ -9,10 +9,10 @@ const PostSchema = new mongoose.Schema({
         type: mongoose.SchemaTypes.String,
         required: true,
     },
-    media: {
+    media: [{
         type: mongoose.SchemaTypes.String,
         required: false,
-    },
+    }],
     comments: [
         {
             type: mongoose.SchemaTypes.ObjectId,
@@ -23,6 +23,10 @@ const PostSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
         required: true
+    },
+    slug : {
+        type : mongoose.SchemaTypes.String,
+        required : true
     }
 });
 
