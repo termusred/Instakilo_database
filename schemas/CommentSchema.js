@@ -19,10 +19,11 @@ const Comment = new mongoose.Schema({
         type : mongoose.SchemaTypes.ObjectId,
         ref : "Comment"
     },
-    user : {
+    user : [{
         type : mongoose.SchemaTypes.ObjectId,
-        ref : "User"
-    },
+        ref : "User",
+        required : true
+    }],
     post : {
         type : mongoose.SchemaTypes.ObjectId,
         ref : "Post"

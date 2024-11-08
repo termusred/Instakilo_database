@@ -28,11 +28,20 @@ router.get('/users', isLoggedIn, async (req, res) => {
     }
 });
 
+router.get("/userId" , isLoggedIn , async (req , res) =>{
+    try {
+        const id = req.userId;
+        res.status(200).send(id)
+    } catch (error) {
+        return res.status(403).send({ msg: 'Forbidden: Only admin can access this route' });
+    }
+})
+
 router.get('/users/:userId', isLoggedIn, async (req, res) => {
     try {
         const user = req.params.userId
-        const data = User.findById({_id : user})
-        res.status(200).json({data})
+        const data = await User.findById({_id : user})
+        res.status(200).json({data : data})
     } catch (error) {
         console.log(error);
     }

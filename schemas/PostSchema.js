@@ -19,11 +19,11 @@ const PostSchema = new mongoose.Schema({
             ref: "Comment",  
         },
     ],
-    author: {
-        type: mongoose.Schema.Types.ObjectId,
+    author: [{
+        type: mongoose.SchemaTypes.ObjectId,
         ref: 'User',
         required: true
-    },
+    }],
     slug : {
         type : mongoose.SchemaTypes.String,
         required : true
