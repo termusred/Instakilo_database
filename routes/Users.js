@@ -36,6 +36,17 @@ router.get("/userId" , isLoggedIn , async (req , res) =>{
         return res.status(403).send({ msg: 'Forbidden: Only admin can access this route' });
     }
 })
+router.get("/userToken" , isLoggedIn , async (req , res) =>{
+    try {
+        const id = req.userId;
+        const data = await User.findById(id)
+        await data.save()
+
+        res.status(200).send({data})
+    } catch (error) {
+        return res.status(403).send({ msg: 'Forbidden: Only admin can access this route' });
+    }
+})
 
 router.get('/users/:userId', isLoggedIn, async (req, res) => {
     try {
