@@ -26,3 +26,4 @@ tmp/
 # Netlify-specific (if applicable)
 .netlify/
 functions/
+.vercel
