@@ -10,7 +10,8 @@ dotenv.config()
         secret : process.env.JWT_SECRET ,
         expiresIn : process.env.JWT_EXPIRES_IN,
     } ,
-    port : process.env.PORT
+    port : process.env.PORT,
+    cors : process.env.CORS_ORIGIN
 }
 
 export default config;

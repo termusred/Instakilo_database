@@ -1,0 +1,14 @@
+[build]
+  functions = "functions" # Directory for serverless functions
+  publish = "uploads"     # Optional: if serving static files
+
+[[redirects]]
+  from = "/api/*"         # Route all API requests to the function
+  to = "/.netlify/functions/server/:splat"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/images/*"      # Serve static images
+  to = "/uploads/:splat"
+  status = 200
