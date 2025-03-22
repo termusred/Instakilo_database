@@ -28,8 +28,14 @@ app.use(express.json());
 let isConnected = false;
 async function connectToDb() {
   if (!isConnected) {
-    await Connector();
-    isConnected = true;
+    try {
+      await Connector();
+      isConnected = true;
+      console.log("Database connection established");
+    } catch (error) {
+      console.error("Failed to connect to database:", error.message);
+      // Don't throw here; let the app continue without DB if needed
+    }
   }
 }
 
@@ -61,25 +67,42 @@ const swaggerOptions = {
   apis: ["./routes/*.js"],
 };
 
-const swaggerDocs = swaggerJsdoc(swaggerOptions);
-app.use(
-  "/api-docs",
-  swaggerUi.serve,
-  swaggerUi.setup(swaggerDocs, {
-    swaggerOptions: {
-      url: "/api-docs/swagger.json",
-    },
-  })
-);
+try {
+  const swaggerDocs = swaggerJsdoc(swaggerOptions);
+  app.use(
+    "/api-docs",
+    swaggerUi.serve,
+    swaggerUi.setup(swaggerDocs, {
+      swaggerOptions: {
+        url: "/api-docs/swagger.json",
+      },
+    })
+  );
+} catch (error) {
+  console.error("Swagger setup failed:", error.message);
+}
 
-// Routes
+// Routes with DB check
 app.use(async (req, res, next) => {
   await connectToDb();
+  if (!isConnected) {
+    return res.status(503).send("Service Unavailable: Database not connected");
+  }
   next();
 });
 app.use(UsersRoute);
 app.use(PostsRoute);
 app.use(CommentRoute);
 
-// Export as serverless function
+// Global error handler
+app.use((err, req, res, next) => {
+  console.error("Unhandled error:", err.stack);
+  res.status(500).send("Internal Server Error");
+});
+
+// Health check endpoint
+app.get("/health", (req, res) => {
+  res.status(200).json({ status: "OK", dbConnected: isConnected });
+});
+
 export default serverless(app);
