@@ -9,7 +9,7 @@ import config from "./utils/config/config.js"
 const app = express()
 
 app.use(cors({
-    origin: config.cors.CORS_ORIGIN,
+    origin: config.cors,
     methods: "GET,POST,PUT,DELETE",
     credentials: true // If you're dealing with cookies or sessions
 }));
