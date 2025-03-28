@@ -4,11 +4,12 @@ import UsersRoute from "./routes/Users.js"
 import CommentRoute from "./routes/Comments.js"
 import cors from "cors"
 import PostsRoute from "./routes/Posts.js"
+import config from "./utils/config/config.js"
 
 const app = express()
 
 app.use(cors({
-    origin: "http://localhost:5173",
+    origin: config.cors.CORS_ORIGIN,
     methods: "GET,POST,PUT,DELETE",
     credentials: true // If you're dealing with cookies or sessions
 }));
